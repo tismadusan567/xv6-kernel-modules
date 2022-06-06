@@ -69,6 +69,7 @@ char*           kalloc(void);
 void            kfree(char*);
 void            kinit1(void*, void*);
 void            kinit2(void*, void*);
+uint            get_end(void);
 
 // kbd.c
 void            kbdintr(void);
@@ -123,6 +124,7 @@ void            yield(void);
 //projekat
 void            exec_hook(int, void*);
 int             assign_to_hook(int, void (*)(void*));
+void            set_resident(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

@@ -8,6 +8,8 @@
 #define KERNBASE 0x80000000         // First kernel virtual address
 #define KERNLINK (KERNBASE+EXTMEM)  // Address where kernel is linked
 
+#define MODULE_START (PHYSTOP-0x1000000) //start of module space in kernel, max sum of module sizes is 64mb(todo: change to 0x4000000)
+
 #define V2P(a) (((uint) (a)) - KERNBASE)
 #define P2V(a) ((void *)(((char *) (a)) + KERNBASE))
 

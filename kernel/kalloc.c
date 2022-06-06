@@ -94,3 +94,7 @@ kalloc(void)
 	return (char*)r;
 }
 
+uint get_end(void) {
+	return (uint)end;
+}
+

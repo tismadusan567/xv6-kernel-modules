@@ -36,6 +36,27 @@ int assign_to_hook(int hook_id, void (*f)(void*)) {
 	return 0;
 }
 
+void set_resident() {
+	struct proc *curproc = myproc(), *p;
+	acquire(&ptable.lock);
+
+	curproc->state = RESIDENT;
+	// Parent might be sleeping in wait().
+	wakeup1(curproc->parent);
+
+	//todo: proveriti
+	// Pass abandoned children to init.
+	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+		if(p->parent == curproc){
+			p->parent = initproc;
+			if(p->state == ZOMBIE)
+				wakeup1(initproc);
+		}
+	}
+
+	release(&ptable.lock);
+}
+
 void
 pinit(void)
 {
@@ -311,6 +332,13 @@ wait(void)
 				p->name[0] = 0;
 				p->killed = 0;
 				p->state = UNUSED;
+				release(&ptable.lock);
+				return pid;
+			}
+			//todo: proveriti
+			if(p->state == RESIDENT){
+				pid = p->pid;
+				p->parent = 0;
 				release(&ptable.lock);
 				return pid;
 			}

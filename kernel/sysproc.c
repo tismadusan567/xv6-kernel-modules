@@ -103,5 +103,8 @@ sys_init_module(void)
 		cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
 		assign_to_hook(modules[i].hook_id, modules[i].f);
 	}
+	// cprintf("%x\n", PGROUNDUP(get_end()));
+
+	set_resident();
 	return 0;
 }
