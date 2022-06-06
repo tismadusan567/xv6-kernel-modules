@@ -106,6 +106,6 @@ sys_init_module(void)
 	// cprintf("%x\n", PGROUNDUP(get_end()));
 
 	set_resident();
-	sched();
+	myyield();
 	return 0;
 }

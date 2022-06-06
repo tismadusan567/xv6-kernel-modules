@@ -36,6 +36,7 @@ int assign_to_hook(int hook_id, void (*f)(void*)) {
 	return 0;
 }
 
+//Change current proc state to resident and wakes up parent
 void set_resident() {
 	struct proc *curproc = myproc(), *p;
 	acquire(&ptable.lock);
@@ -55,6 +56,14 @@ void set_resident() {
 	}
 
 	release(&ptable.lock);
+}
+
+//Must change proc->state before running this.
+void myyield(void) {
+	acquire(&ptable.lock);  //DOC: yieldlock
+	sched();
+	release(&ptable.lock);
+	panic("myyield\n");
 }
 
 void

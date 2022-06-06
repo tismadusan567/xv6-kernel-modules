@@ -125,6 +125,7 @@ void            yield(void);
 void            exec_hook(int, void*);
 int             assign_to_hook(int, void (*)(void*));
 void            set_resident(void);
+void            myyield(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
