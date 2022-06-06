@@ -89,3 +89,19 @@ sys_uptime(void)
 	release(&tickslock);
 	return xticks;
 }
+
+int 
+sys_init_module(void)
+{
+	int n;
+	struct module* modules;
+	if(argint(1, &n) < 0 || argint(0, &modules) < 0) {
+		cprintf("sys_init_module argument error\n");
+		return 1;
+	}
+	for(int i=0;i<n;i++) {
+		cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
+		assign_to_hook(modules[i].hook_id, modules[i].f);
+	}
+	return 0;
+}

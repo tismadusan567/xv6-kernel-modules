@@ -20,6 +20,22 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
+void (*hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC])(void*);
+
+void exec_hook(int hook_id, void *arg) {
+	for(int i=0;hook_functions[hook_id][i] != 0 && i < MAX_HOOK_FUNC;i++) {
+		hook_functions[hook_id][i](arg);
+	}
+}
+
+int assign_to_hook(int hook_id, void (*f)(void*)) {
+	int idx = 0;
+	while(hook_functions[hook_id][idx] != 0 && idx < MAX_HOOK_FUNC) idx++;
+	if(idx >= MAX_HOOK_FUNC) return 1;
+	hook_functions[hook_id][idx] = f;
+	return 0;
+}
+
 void
 pinit(void)
 {
@@ -506,7 +522,8 @@ procdump(void)
 	[SLEEPING]  "sleep ",
 	[RUNNABLE]  "runble",
 	[RUNNING]   "run   ",
-	[ZOMBIE]    "zombie"
+	[ZOMBIE]    "zombie",
+	[RESIDENT]  "resident",
 	};
 	int i;
 	struct proc *p;

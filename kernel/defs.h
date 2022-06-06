@@ -9,6 +9,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct module;
 
 // bio.c
 void            binit(void);
@@ -119,6 +120,9 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+//projekat
+void            exec_hook(int, void*);
+int             assign_to_hook(int, void (*)(void*));
 
 // swtch.S
 void            swtch(struct context**, struct context*);

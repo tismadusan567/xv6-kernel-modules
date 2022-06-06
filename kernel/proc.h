@@ -31,7 +31,7 @@ struct context {
 	uint eip;
 };
 
-enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
+enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE, RESIDENT };
 
 // Per-process state
 struct proc {
@@ -55,3 +55,6 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
+
+#define NUM_OF_HOOKS 4
+#define MAX_HOOK_FUNC 5
