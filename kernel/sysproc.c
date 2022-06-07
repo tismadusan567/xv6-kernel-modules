@@ -101,8 +101,10 @@ sys_init_module(void)
 	}
 	for(int i=0;i<n;i++) {
 		// cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
-		assign_to_hook(modules[i].hook_id, modules[i].f);
+		cprintf("%x\n", modules[i].f);
+		assign_to_hook(modules[i].hook_id, modules[i].f, myproc()->pid);
 	}
+	cprintf("%d\n", myproc()->sz);
 	// cprintf("%x\n", PGROUNDUP(get_end()));
 	// map_to_residents(myproc()->pgdir);
 	set_resident();

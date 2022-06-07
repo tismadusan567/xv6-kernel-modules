@@ -58,3 +58,5 @@ struct proc {
 
 #define NUM_OF_HOOKS 4
 #define MAX_HOOK_FUNC 5
+
+struct hook_func hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC];

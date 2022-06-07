@@ -133,15 +133,27 @@ char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
 	return vstart;
 }
 
+void update_hooks(int pid, char *vstart) {
+	for(int i=0;i<NUM_OF_HOOKS;i++) {
+		for(int j=0;j<MAX_HOOK_FUNC;j++) {
+			if(hook_functions[i][j].pid == pid) {
+				hook_functions[i][j].f = hook_functions[i][j].org_func + (uint)vstart;
+			}
+		}
+	}
+}
+
 //For a given pgdir maps all existing resident processes
 //Requires ptable lock
 int map_to_residents(pde_t *pgdir) {
 	struct proc *processes = get_processes();
-	char *va = P2V(MODULE_START);
+	char *va = P2V(MODULE_START), *next_va;
 	for(int i=0;i<NPROC;i++) {
 		if(processes[i].state == RESIDENT) {
-			va = map_to_resident(pgdir, processes[i], va);
-			// cprintf("%p\n", va);
+			next_va = map_to_resident(pgdir, processes[i], va);
+			cprintf("%x\n", va);
+			update_hooks(processes[i].pid, va);
+			va = next_va;
 		}
 		
 	}
@@ -192,7 +204,6 @@ setupkvm(void)
 			return 0;
 		}
 	}
-	map_to_residents(pgdir);
 	return pgdir;
 }
 

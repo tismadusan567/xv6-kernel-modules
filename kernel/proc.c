@@ -20,19 +20,20 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
-void (*hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC])(void*);
-
+// void (*hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC])(void*);
 void exec_hook(int hook_id, void *arg) {
-	for(int i=0;hook_functions[hook_id][i] != 0 && i < MAX_HOOK_FUNC;i++) {
-		hook_functions[hook_id][i](arg);
+	for(int i=0;hook_functions[hook_id][i].pid != 0 && i < MAX_HOOK_FUNC;i++) {
+		hook_functions[hook_id][i].f(arg);
 	}
 }
 
-int assign_to_hook(int hook_id, void (*f)(void*)) {
+int assign_to_hook(int hook_id, void (*f)(void*), int pid) {
 	int idx = 0;
-	while(hook_functions[hook_id][idx] != 0 && idx < MAX_HOOK_FUNC) idx++;
+	while(hook_functions[hook_id][idx].pid != 0 && idx < MAX_HOOK_FUNC) idx++;
 	if(idx >= MAX_HOOK_FUNC) return 1;
-	hook_functions[hook_id][idx] = f;
+	hook_functions[hook_id][idx].f = f;
+	hook_functions[hook_id][idx].pid = pid;
+	hook_functions[hook_id][idx].org_func = (void*)f;
 	return 0;
 }
 
@@ -68,6 +69,10 @@ void release_ptable() {
 
 struct proc* get_processes() {
 	return ptable.proc;
+}
+
+struct hook_func* get_hook_funcs() {
+	return hook_functions;
 }
 
 //Must change proc->state before running this.
@@ -238,6 +243,9 @@ growproc(int n)
 int
 fork(void)
 {
+	int x = 0;
+	exec_hook(0, &x);
+	cprintf("%d\n", x);
 	int i, pid;
 	struct proc *np;
 	struct proc *curproc = myproc();
