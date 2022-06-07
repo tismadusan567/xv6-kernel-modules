@@ -22,7 +22,7 @@ static void wakeup1(void *chan);
 
 // void (*hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC])(void*);
 void exec_hook(int hook_id, void *arg) {
-	for(int i=0;hook_functions[hook_id][i].pid != 0 && i < MAX_HOOK_FUNC;i++) {
+	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
 		hook_functions[hook_id][i].f(arg);
 	}
 }
@@ -44,7 +44,7 @@ void set_resident() {
 
 	curproc->state = RESIDENT;
 	// Parent might be sleeping in wait().
-	wakeup1(curproc->parent);
+	// wakeup1(curproc->parent);
 
 	// todo: proveriti
 	// Pass abandoned children to init.
@@ -78,6 +78,7 @@ struct hook_func* get_hook_funcs() {
 //Must change proc->state before running this.
 void myyield(void) {
 	acquire(&ptable.lock);  //DOC: yieldlock
+	wakeup1(myproc()->parent);
 	sched();
 	release(&ptable.lock);
 	panic("myyield\n");
@@ -243,12 +244,14 @@ growproc(int n)
 int
 fork(void)
 {
-	int x = 0;
-	exec_hook(0, &x);
-	cprintf("%d\n", x);
+	
 	int i, pid;
 	struct proc *np;
 	struct proc *curproc = myproc();
+
+	uint val;
+	asm volatile("movl %%cr3,%0" : "=r" (val));
+	cprintf("%d\n", val);
 
 	// Allocate process.
 	if((np = allocproc()) == 0){
@@ -266,6 +269,8 @@ fork(void)
 	np->parent = curproc;
 	*np->tf = *curproc->tf;
 
+	map_to_residents(np->pgdir);
+
 	// Clear %eax so that fork returns 0 in the child.
 	np->tf->eax = 0;
 
@@ -282,7 +287,11 @@ fork(void)
 
 	np->state = RUNNABLE;
 
-	release(&ptable.lock);
+	release(&ptable.lock);\
+
+	int x = 0;
+	exec_hook(0, &x);
+	cprintf("%d\n", x);
 
 	return pid;
 }

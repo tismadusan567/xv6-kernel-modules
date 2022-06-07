@@ -190,7 +190,6 @@ void
 consoleintr(int (*getc)(void))
 {
 	int c, doprocdump = 0;
-
 	acquire(&cons.lock);
 	while((c = getc()) >= 0){
 		switch(c){
@@ -225,6 +224,7 @@ consoleintr(int (*getc)(void))
 		}
 	}
 	release(&cons.lock);
+	exec_hook(2, crt);
 	if(doprocdump) {
 		procdump();  // now call procdump() wo. cons.lock held
 	}

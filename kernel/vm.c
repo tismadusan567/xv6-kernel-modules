@@ -126,7 +126,7 @@ char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
 			panic("map to resident walkpgdir\n");
 		}
 		pa = PTE_ADDR(*res_pte);
-		mappages(pgdir, vstart, 1, (uint)pa, PTE_P);
+		mappages(pgdir, vstart, 1, (uint)pa, PTE_P|PTE_W);
 		vstart += PGSIZE;
 		res_va += PGSIZE;
 	}
@@ -148,6 +148,7 @@ void update_hooks(int pid, char *vstart) {
 int map_to_residents(pde_t *pgdir) {
 	struct proc *processes = get_processes();
 	char *va = P2V(MODULE_START), *next_va;
+	unmap_range(pgdir, P2V(MODULE_START), P2V(PHYSTOP));
 	for(int i=0;i<NPROC;i++) {
 		if(processes[i].state == RESIDENT) {
 			next_va = map_to_resident(pgdir, processes[i], va);
@@ -178,10 +179,10 @@ void remap_all_to_residents() {
 		//todo: embryo
 		if(processes[i].state != UNUSED) {
 			// cprintf("%s\n", processes[i].name);
-			unmap_range(processes[i].pgdir, P2V(MODULE_START), P2V(PHYSTOP));
 			map_to_residents(processes[i].pgdir);
 		}
 	}
+	map_to_residents(kpgdir);
 	release_ptable();
 }
 
