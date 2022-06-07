@@ -69,6 +69,7 @@ char*           kalloc(void);
 void            kfree(char*);
 void            kinit1(void*, void*);
 void            kinit2(void*, void*);
+//projekat
 uint            get_end(void);
 
 // kbd.c
@@ -126,6 +127,9 @@ void            exec_hook(int, void*);
 int             assign_to_hook(int, void (*)(void*));
 void            set_resident(void);
 void            myyield(void);
+void            acquire_ptable();
+void            release_ptable();
+struct proc*    get_processes();
 
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -191,6 +195,9 @@ void            switchuvm(struct proc*);
 void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
+//projekat
+int             map_to_residents(pde_t *pgdir);
+void            remap_all_to_residents();
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

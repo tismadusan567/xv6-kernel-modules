@@ -110,9 +110,68 @@ static struct kmap {
 } kmap[] = {
 	{ (void*)KERNBASE, 0,             EXTMEM,    PTE_W}, // I/O space
 	{ (void*)KERNLINK, V2P(KERNLINK), V2P(data), 0},     // kern text+rodata
-	{ (void*)data,     V2P(data),     PHYSTOP,   PTE_W}, // kern data+memory
+	{ (void*)data,     V2P(data),     MODULE_START,   PTE_W}, // kern data+memory
 	{ (void*)DEVSPACE, DEVSPACE,      0,         PTE_W}, // more devices
 };
+
+//Map pgdir to resident pocess at vstart.
+//Returns address of next empty page
+char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
+	char *pa, *res_va = 0;
+	pte_t *res_pte;
+	vstart = (char*)PGROUNDUP((uint)vstart);
+	//todo: uslov mozda <= ili drugaciji skroz
+	while((uint)res_va < resident.sz) {
+		if((res_pte = walkpgdir(resident.pgdir, res_va, 0)) == 0) {
+			panic("map to resident walkpgdir\n");
+		}
+		pa = PTE_ADDR(*res_pte);
+		mappages(pgdir, vstart, 1, (uint)pa, PTE_P);
+		vstart += PGSIZE;
+		res_va += PGSIZE;
+	}
+	return vstart;
+}
+
+//For a given pgdir maps all existing resident processes
+//Requires ptable lock
+int map_to_residents(pde_t *pgdir) {
+	struct proc *processes = get_processes();
+	char *va = P2V(MODULE_START);
+	for(int i=0;i<NPROC;i++) {
+		if(processes[i].state == RESIDENT) {
+			va = map_to_resident(pgdir, processes[i], va);
+			// cprintf("%p\n", va);
+		}
+		
+	}
+	return 0;
+}
+
+//vstart must be page-alligned
+//ovde ostaje alocirn pde_t u pgdir, proveriti
+void unmap_range(pde_t *pgdir, char *vstart, char *vend) {
+	pte_t *pte;
+	for(;vstart < vend;vstart += PGSIZE) {
+		pte = walkpgdir(pgdir, vstart, 0);
+		*pte = 0;
+	}
+}
+
+//Iterates over all processes and remaps all used ones to current resident processes.
+void remap_all_to_residents() {
+	acquire_ptable();
+	struct proc *processes = get_processes();
+	for(int i=0;i<NPROC;i++) {
+		//todo: embryo
+		if(processes[i].state != UNUSED) {
+			// cprintf("%s\n", processes[i].name);
+			unmap_range(processes[i].pgdir, P2V(MODULE_START), P2V(PHYSTOP));
+			map_to_residents(processes[i].pgdir);
+		}
+	}
+	release_ptable();
+}
 
 // Set up kernel part of a page table.
 pde_t*
@@ -126,12 +185,14 @@ setupkvm(void)
 	memset(pgdir, 0, PGSIZE);
 	if (P2V(PHYSTOP) > (void*)DEVSPACE)
 		panic("PHYSTOP too high");
-	for(k = kmap; k < &kmap[NELEM(kmap)]; k++)
+	for(k = kmap; k < &kmap[NELEM(kmap)]; k++) {
 		if(mappages(pgdir, k->virt, k->phys_end - k->phys_start,
 		            (uint)k->phys_start, k->perm) < 0) {
 			freevm(pgdir);
 			return 0;
 		}
+	}
+	map_to_residents(pgdir);
 	return pgdir;
 }
 

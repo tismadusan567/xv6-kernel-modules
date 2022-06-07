@@ -13,3 +13,9 @@ struct module {
 	int hook_id;
 	void (*f)(void* arg);
 };
+
+struct hook_func {
+	void (*f)(void*);
+	int pid;
+	void *org_func;
+};

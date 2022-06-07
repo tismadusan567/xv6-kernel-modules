@@ -45,17 +45,29 @@ void set_resident() {
 	// Parent might be sleeping in wait().
 	wakeup1(curproc->parent);
 
-	//todo: proveriti
+	// todo: proveriti
 	// Pass abandoned children to init.
-	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-		if(p->parent == curproc){
-			p->parent = initproc;
-			if(p->state == ZOMBIE)
-				wakeup1(initproc);
-		}
-	}
+	// for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	// 	if(p->parent == curproc){
+	// 		p->parent = initproc;
+	// 		if(p->state == ZOMBIE)
+	// 			wakeup1(initproc);
+	// 	}
+	// }
 
 	release(&ptable.lock);
+}
+
+void acquire_ptable() {
+	acquire(&ptable.lock);
+}
+
+void release_ptable() {
+	release(&ptable.lock);
+}
+
+struct proc* get_processes() {
+	return ptable.proc;
 }
 
 //Must change proc->state before running this.
