@@ -133,6 +133,8 @@ char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
 	return vstart;
 }
 
+
+//Iterates over all hook functions and updates them to the new vstart of the given process
 void update_hooks(int pid, char *vstart) {
 	for(int i=0;i<NUM_OF_HOOKS;i++) {
 		for(int j=0;j<MAX_HOOK_FUNC;j++) {
@@ -143,25 +145,7 @@ void update_hooks(int pid, char *vstart) {
 	}
 }
 
-//For a given pgdir maps all existing resident processes
-//Requires ptable lock
-int map_to_residents(pde_t *pgdir) {
-	struct proc *processes = get_processes();
-	char *va = P2V(MODULE_START), *next_va;
-	unmap_range(pgdir, P2V(MODULE_START), P2V(PHYSTOP));
-	for(int i=0;i<NPROC;i++) {
-		if(processes[i].state == RESIDENT) {
-			next_va = map_to_resident(pgdir, processes[i], va);
-			cprintf("%x\n", va);
-			update_hooks(processes[i].pid, va);
-			va = next_va;
-		}
-		
-	}
-	return 0;
-}
-
-//vstart must be page-alligned
+//Vstart must be page-alligned(probably)
 //ovde ostaje alocirn pde_t u pgdir, proveriti
 void unmap_range(pde_t *pgdir, char *vstart, char *vend) {
 	pte_t *pte;
@@ -171,14 +155,30 @@ void unmap_range(pde_t *pgdir, char *vstart, char *vend) {
 	}
 }
 
-//Iterates over all processes and remaps all used ones to current resident processes.
+//For a given pgdir maps all existing resident processes starting at MODULE_START, and updates hooks
+//Requires ptable lock
+int map_to_residents(pde_t *pgdir) {
+	struct proc *processes = get_processes();
+	char *va = P2V(MODULE_START), *next_va;
+	unmap_range(pgdir, P2V(MODULE_START), P2V(PHYSTOP));
+	for(int i=0;i<NPROC;i++) {
+		if((void*)va > P2V(PHYSTOP)) panic("map_to_residents va > PHYSTOP");
+		if(processes[i].state == RESIDENT) {
+			next_va = map_to_resident(pgdir, processes[i], va);
+			update_hooks(processes[i].pid, va);
+			va = next_va;
+		}
+	}
+	return 0;
+}
+
+//Iterates over all processes and remaps all active ones, including kpgdir, to all active residents.
 void remap_all_to_residents() {
 	acquire_ptable();
 	struct proc *processes = get_processes();
 	for(int i=0;i<NPROC;i++) {
 		//todo: embryo
 		if(processes[i].state != UNUSED) {
-			// cprintf("%s\n", processes[i].name);
 			map_to_residents(processes[i].pgdir);
 		}
 	}

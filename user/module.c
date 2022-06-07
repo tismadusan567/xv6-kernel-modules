@@ -18,9 +18,9 @@ main(int argc, char *argv[])
 {
 	struct module m1 = {"prvi", 0, f1};
 	struct module m2 = {"drugi", 2, f2};
-	struct module arr[1] = {m2};
+	struct module arr[2] = {m1, m2};
 	int a = 5;
 	f1(&a);
-	init_module(arr, 1);
+	init_module(arr, 2);
 	// exit();
 }

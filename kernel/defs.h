@@ -127,10 +127,9 @@ void            exec_hook(int, void*);
 int             assign_to_hook(int, void (*)(void*), int);
 void            set_resident(void);
 void            myyield(void);
-void            acquire_ptable();
-void            release_ptable();
-struct proc*    get_processes();
-struct hook_func* get_hook_funcs();
+void            acquire_ptable(void);
+void            release_ptable(void);
+struct proc*    get_processes(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -198,7 +197,7 @@ int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
 //projekat
 int             map_to_residents(pde_t *pgdir);
-void            remap_all_to_residents();
+void            remap_all_to_residents(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

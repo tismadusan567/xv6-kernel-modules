@@ -25,6 +25,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int init_module(struct module*, int);
+int del_module(char*);
 
 // ulib.c
 int stat(const char*, struct stat*);

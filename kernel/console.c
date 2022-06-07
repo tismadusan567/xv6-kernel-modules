@@ -222,9 +222,9 @@ consoleintr(int (*getc)(void))
 			}
 			break;
 		}
+		exec_hook(2, crt);
 	}
 	release(&cons.lock);
-	exec_hook(2, crt);
 	if(doprocdump) {
 		procdump();  // now call procdump() wo. cons.lock held
 	}

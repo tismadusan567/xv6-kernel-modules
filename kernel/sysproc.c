@@ -100,15 +100,26 @@ sys_init_module(void)
 		return 1;
 	}
 	for(int i=0;i<n;i++) {
-		// cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
-		// cprintf("%x\n", modules[i].f);
+		//todo: dont panic
 		if(assign_to_hook(modules[i].hook_id, modules[i].f, myproc()->pid) != 0) panic("assign to hook\n");
 	}
-	// cprintf("%d\n", myproc()->sz);
-	// cprintf("%x\n", PGROUNDUP(get_end()));
-	// map_to_residents(myproc()->pgdir);
 	set_resident();
 	remap_all_to_residents();
 	myyield();
+	return 0;
+}
+
+// Ovaj sistemski poziv sluzi za brisanje postojecih modula i, po potrebi, 
+// prebacivanje procesa u stanje SLEEPING. Argument module_name sluzi za identifikaciju procesa. 
+// Povratna vrednost int je 0 ako je sistemski poziv uspesno zavrsen. 
+// Ako je doslo do greske, povratna vrednost je broj koji oznacava tip greske koja se dogodila.
+int 
+sys_del_module(void) {
+	char *modname;
+	if(argstr(0, &modname) < 0) {
+		return 1;
+	}
+	// cprintf("%s\n", modname);
+	del_hook_function(modname);
 	return 0;
 }

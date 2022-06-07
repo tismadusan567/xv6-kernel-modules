@@ -20,7 +20,6 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
-// void (*hook_functions[NUM_OF_HOOKS][MAX_HOOK_FUNC])(void*);
 void exec_hook(int hook_id, void *arg) {
 	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
 		hook_functions[hook_id][i].f(arg);
@@ -37,9 +36,9 @@ int assign_to_hook(int hook_id, void (*f)(void*), int pid) {
 	return 0;
 }
 
-//Change current proc state to resident and wakes up parent
+//Change current proc state to resident
 void set_resident() {
-	struct proc *curproc = myproc(), *p;
+	struct proc *curproc = myproc();
 	acquire(&ptable.lock);
 
 	curproc->state = RESIDENT;
@@ -48,6 +47,7 @@ void set_resident() {
 
 	// todo: proveriti
 	// Pass abandoned children to init.
+	// struct proc *p;
 	// for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 	// 	if(p->parent == curproc){
 	// 		p->parent = initproc;
@@ -59,23 +59,20 @@ void set_resident() {
 	release(&ptable.lock);
 }
 
-void acquire_ptable() {
+void acquire_ptable(void) {
 	acquire(&ptable.lock);
 }
 
-void release_ptable() {
+void release_ptable(void) {
 	release(&ptable.lock);
 }
 
-struct proc* get_processes() {
+struct proc* get_processes(void) {
 	return ptable.proc;
 }
 
-struct hook_func* get_hook_funcs() {
-	return hook_functions;
-}
-
 //Must change proc->state before running this.
+//Wakes up parent
 void myyield(void) {
 	acquire(&ptable.lock);  //DOC: yieldlock
 	wakeup1(myproc()->parent);
@@ -248,10 +245,6 @@ fork(void)
 	int i, pid;
 	struct proc *np;
 	struct proc *curproc = myproc();
-
-	uint val;
-	asm volatile("movl %%cr3,%0" : "=r" (val));
-	cprintf("%d\n", val);
 
 	// Allocate process.
 	if((np = allocproc()) == 0){
