@@ -123,8 +123,8 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 //projekat
-void            exec_hook(int, void*);
-int             assign_to_hook(char*, int, void (*)(void*), int);
+void            exec_hook(int, void*, void*);
+int             assign_to_hook(char*, int, void (*)(struct hook_arg), int);
 void            set_resident(void);
 void            myyield(void);
 void            acquire_ptable(void);

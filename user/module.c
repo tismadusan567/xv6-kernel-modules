@@ -1,13 +1,16 @@
 #include "kernel/types.h"
 #include "user.h"
 
-void f1(struct hook_arg arg) {
-	int *x = (int*)arg.arg;
+void f1(struct hook_arg arg) 
+{
+	char *c = atoi("a");
+	int *x = (int*)arg.arg1;
 	(*x)++;
 }
 
-void f2(struct hook_arg arg) {
-	ushort *crt = (ushort*)arg.arg;
+void f2(struct hook_arg arg) 
+{
+	ushort *crt = (ushort*)arg.arg1;
 	crt[0]++;
 }
 

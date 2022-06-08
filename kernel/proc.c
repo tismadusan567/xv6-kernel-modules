@@ -20,50 +20,60 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
-void exec_hook(int hook_id, void *arg) {
-	struct hook_arg hook_arg = {.arg=arg};
+void exec_hook(int hook_id, void *arg1, void *arg2) 
+{
+	struct hook_arg hook_arg = {.arg1=arg1, .arg2=arg2};
+
 	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
-		hook_arg.offset = (uint)hook_functions[hook_id][i].f - (uint)hook_functions[hook_id][i].org_func;
+		hook_arg.offset = (uint)hook_functions[hook_id][i].f - (uint)hook_functions[hook_id][i].org_f;
 		hook_functions[hook_id][i].f(hook_arg);
 	}
 }
 
-int assign_to_hook(char* name, int hook_id, void (*f)(void*), int pid) {
+int assign_to_hook(char* name, int hook_id, void (*f)(struct hook_arg), int pid) 
+{
 	int idx = 0;
 	while(hook_functions[hook_id][idx].pid != 0 && idx < MAX_HOOK_FUNC) idx++;
+
 	if(idx >= MAX_HOOK_FUNC) return 1;
+	
 	strncpy(hook_functions[hook_id][idx].name, name, 15);
 	hook_functions[hook_id][idx].f = f;
 	hook_functions[hook_id][idx].pid = pid;
-	hook_functions[hook_id][idx].org_func = (void*)f;
-	// cprintf("%s %d %p\n", hook_functions[hook_id][idx].name, hook_functions[hook_id][idx].pid = pid, hook_functions[hook_id][idx].f);
+	hook_functions[hook_id][idx].org_f = (void*)f;
+
 	return 0;
 }
 
 //Change current proc state to resident
-void set_resident() {
+void set_resident(void) 
+{
 	struct proc *curproc = myproc();
-	acquire(&ptable.lock);
 
+	acquire(&ptable.lock);
 	curproc->state = RESIDENT;
 	release(&ptable.lock);
 }
 
-void acquire_ptable(void) {
+void acquire_ptable(void) 
+{
 	acquire(&ptable.lock);
 }
 
-void release_ptable(void) {
+void release_ptable(void) 
+{
 	release(&ptable.lock);
 }
 
-struct proc* get_processes(void) {
+struct proc* get_processes(void) 
+{
 	return ptable.proc;
 }
 
 //Must change proc->state before running this.
 //Wakes up parent
-void myyield(void) {
+void myyield(void) 
+{
 	acquire(&ptable.lock);  //DOC: yieldlock
 	wakeup1(myproc()->parent);
 	sched();
@@ -72,7 +82,8 @@ void myyield(void) {
 }
 
 //Deletes the module named modname, and returns the pid of its process.
-int del_hook_function(char *modname) {
+int del_hook_function(char *modname) 
+{
 	for(int i=0;i<NUM_OF_HOOKS;i++) {
 		for(int j=0;j<MAX_HOOK_FUNC;j++) {
 			if(strncmp(modname, hook_functions[i][j].name, 15) == 0) {
@@ -85,7 +96,9 @@ int del_hook_function(char *modname) {
 	return 0;
 }
 
-int module_count(int pid) {
+//Returns number of active modules for given pid
+int module_count(int pid) 
+{
 	int count = 0;
 	for(int i=0;i<NUM_OF_HOOKS;i++) {
 		for(int j=0;j<MAX_HOOK_FUNC;j++) {
@@ -97,7 +110,8 @@ int module_count(int pid) {
 	return count;
 }
 
-int module_name_exists(char* modname) {
+int module_name_exists(char* modname) 
+{
 	for(int i=0;i<NUM_OF_HOOKS;i++) {
 		for(int j=0;j<MAX_HOOK_FUNC;j++) {
 			if(strncmp(modname, hook_functions[i][j].name, 15) == 0) {
@@ -109,7 +123,8 @@ int module_name_exists(char* modname) {
 }
 
 //Simulates exit cleanup + wait cleanup
-void release_resident(int pid) {
+void release_resident(int pid) 
+{
 	struct proc *resident;
 	acquire(&ptable.lock);
 
@@ -366,7 +381,7 @@ fork(void)
 	release(&ptable.lock);\
 
 	int x = 0;
-	exec_hook(FORK, &x);
+	exec_hook(FORK, &x, 0);
 	cprintf("%d\n", x);
 
 	return pid;

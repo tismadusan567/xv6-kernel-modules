@@ -222,7 +222,7 @@ consoleintr(int (*getc)(void))
 			}
 			break;
 		}
-		exec_hook(CONSOLE_HOOK, crt);
+		exec_hook(CONSOLE_HOOK, crt, &c);
 	}
 	release(&cons.lock);
 	if(doprocdump) {

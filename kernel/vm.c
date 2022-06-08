@@ -116,11 +116,12 @@ static struct kmap {
 
 //Map pgdir to resident pocess at vstart.
 //Returns address of next empty page
-char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
+char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) 
+{
 	char *pa, *res_va = 0;
 	pte_t *res_pte;
 	vstart = (char*)PGROUNDUP((uint)vstart);
-	//todo: uslov mozda <= ili drugaciji skroz
+
 	while((uint)res_va < resident.sz) {
 		if((res_pte = walkpgdir(resident.pgdir, res_va, 0)) == 0) {
 			panic("map to resident walkpgdir\n");
@@ -130,16 +131,18 @@ char* map_to_resident(pde_t *pgdir, struct proc resident, char *vstart) {
 		vstart += PGSIZE;
 		res_va += PGSIZE;
 	}
+
 	return vstart;
 }
 
 
 //Iterates over all hook functions and updates them to the new vstart of the given process
-void update_hooks(int pid, char *vstart) {
+void update_hooks(int pid, char *vstart) 
+{
 	for(int i=0;i<NUM_OF_HOOKS;i++) {
 		for(int j=0;j<MAX_HOOK_FUNC;j++) {
 			if(hook_functions[i][j].pid == pid) {
-				hook_functions[i][j].f = hook_functions[i][j].org_func + (uint)vstart;
+				hook_functions[i][j].f = hook_functions[i][j].org_f + (uint)vstart;
 			}
 		}
 	}
@@ -147,7 +150,8 @@ void update_hooks(int pid, char *vstart) {
 
 //Vstart must be page-alligned(probably)
 //ovde ostaje alocirn pde_t u pgdir, proveriti
-void unmap_range(pde_t *pgdir, char *vstart, char *vend) {
+void unmap_range(pde_t *pgdir, char *vstart, char *vend) 
+{
 	pte_t *pte;
 	for(;vstart < vend;vstart += PGSIZE) {
 		pte = walkpgdir(pgdir, vstart, 0);
@@ -157,7 +161,8 @@ void unmap_range(pde_t *pgdir, char *vstart, char *vend) {
 
 //For a given pgdir maps all existing resident processes starting at MODULE_START, and updates hooks
 //Requires ptable lock
-int map_to_residents(pde_t *pgdir) {
+int map_to_residents(pde_t *pgdir) 
+{
 	struct proc *processes = get_processes();
 	char *va = P2V(MODULE_START), *next_va;
 	unmap_range(pgdir, P2V(MODULE_START), P2V(PHYSTOP));
@@ -172,8 +177,9 @@ int map_to_residents(pde_t *pgdir) {
 	return 0;
 }
 
-//Iterates over all processes and remaps all active ones, including kpgdir, to all active residents.
-void remap_all_to_residents() {
+//Iterates over all processes and remaps active ones, including kpgdir, to active residents.
+void remap_all_to_residents() 
+{
 	acquire_ptable();
 	struct proc *processes = get_processes();
 	for(int i=0;i<NPROC;i++) {

@@ -10,13 +10,14 @@ typedef uint pte_t;
 
 struct hook_arg {
 	uint offset;
-	void *arg;
+	void *arg1;
+	void *arg2;
 };
 
 struct module {
 	char name[16];
 	int hook_id;
-	void (*f)(struct hook_arg arg);
+	void (*f)(struct hook_arg);
 };
 
 
@@ -25,7 +26,7 @@ struct hook_func {
 	char name[16];
 	void (*f)(struct hook_arg);
 	int pid;
-	void *org_func;
+	void *org_f;
 };
 
 

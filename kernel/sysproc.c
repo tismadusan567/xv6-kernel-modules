@@ -100,8 +100,6 @@ sys_init_module(void)
 		return 1;
 	}
 	for(int i=0;i<n;i++) {
-		//todo: dont panic
-		cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
 		if(module_name_exists(modules[i].name) != 0) {
 			cprintf("Init_module failed: Module name already exists\n");
 			return 2;
@@ -118,13 +116,16 @@ sys_init_module(void)
 }
 
 int 
-sys_del_module(void) {
+sys_del_module(void) 
+{
 	char *modname;
 	if(argstr(0, &modname) < 0) {
+		cprintf("Del_module failed: argument error\n");
 		return 1;
 	}
 	int pid = del_hook_function(modname);
 	if(pid == 0) {
+		cprintf("Del_module failed: module not found\n");
 		return 2;
 	}
 	if(module_count(pid) == 0) {
