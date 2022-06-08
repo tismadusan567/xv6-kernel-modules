@@ -96,13 +96,20 @@ sys_init_module(void)
 	int n;
 	struct module* modules;
 	if(argint(1, &n) < 0 || argint(0, &modules) < 0) {
-		cprintf("sys_init_module argument error\n");
+		cprintf("Init_module failed: argument error\n");
 		return 1;
 	}
 	for(int i=0;i<n;i++) {
 		//todo: dont panic
 		cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
-		if(assign_to_hook(modules[i].name, modules[i].hook_id, modules[i].f, myproc()->pid) != 0) panic("assign to hook\n");
+		if(module_name_exists(modules[i].name) != 0) {
+			cprintf("Init_module failed: Module name already exists\n");
+			return 2;
+		}
+		if(assign_to_hook(modules[i].name, modules[i].hook_id, modules[i].f, myproc()->pid) != 0) {
+			cprintf("Init_module failed: Max modules at hook %d\n", modules[i].hook_id);
+			return 3;
+		}
 	}
 	set_resident();
 	remap_all_to_residents();
@@ -110,10 +117,6 @@ sys_init_module(void)
 	return 0;
 }
 
-// Ovaj sistemski poziv sluzi za brisanje postojecih modula i, po potrebi, 
-// prebacivanje procesa u stanje SLEEPING. Argument module_name sluzi za identifikaciju procesa. 
-// Povratna vrednost int je 0 ako je sistemski poziv uspesno zavrsen. 
-// Ako je doslo do greske, povratna vrednost je broj koji oznacava tip greske koja se dogodila.
 int 
 sys_del_module(void) {
 	char *modname;

@@ -8,18 +8,27 @@ typedef uint64 gatedesc;
 typedef uint pde_t;
 typedef uint pte_t;
 
+struct hook_arg {
+	uint offset;
+	void *arg;
+};
+
 struct module {
 	char name[16];
 	int hook_id;
-	void (*f)(void* arg);
+	void (*f)(struct hook_arg arg);
 };
+
+
 
 struct hook_func {
 	char name[16];
-	void (*f)(void*);
+	void (*f)(struct hook_arg);
 	int pid;
 	void *org_func;
 };
+
+
 
 enum hook{
 	CONSOLE_HOOK,

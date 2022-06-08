@@ -212,6 +212,7 @@ UPROGS=\
 	$U/_pipetest\
 	$U/_module\
 	$U/_delmod\
+	$U/_screencolor\
 
 fs.img: $T/mkfs README $(UPROGS)
 	$T/mkfs fs.img README $(UPROGS)

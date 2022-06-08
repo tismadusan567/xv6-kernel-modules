@@ -21,8 +21,10 @@ extern void trapret(void);
 static void wakeup1(void *chan);
 
 void exec_hook(int hook_id, void *arg) {
+	struct hook_arg hook_arg = {.arg=arg};
 	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
-		hook_functions[hook_id][i].f(arg);
+		hook_arg.offset = (uint)hook_functions[hook_id][i].f - (uint)hook_functions[hook_id][i].org_func;
+		hook_functions[hook_id][i].f(hook_arg);
 	}
 }
 
@@ -95,6 +97,17 @@ int module_count(int pid) {
 	return count;
 }
 
+int module_name_exists(char* modname) {
+	for(int i=0;i<NUM_OF_HOOKS;i++) {
+		for(int j=0;j<MAX_HOOK_FUNC;j++) {
+			if(strncmp(modname, hook_functions[i][j].name, 15) == 0) {
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
 //Simulates exit cleanup + wait cleanup
 void release_resident(int pid) {
 	struct proc *resident;
@@ -105,8 +118,13 @@ void release_resident(int pid) {
 	}
 	if(resident == &ptable.proc[NPROC]) panic("release_resident resident not found");
 
+
+	struct inode *cwd = resident->cwd;
+	release(&ptable.lock);
+
 	// Close all open files.
 	//todo: testirati
+	//zove endop
 	int fd;
 	for(fd = 0; fd < NOFILE; fd++){
 		if(resident->ofile[fd]){
@@ -114,9 +132,6 @@ void release_resident(int pid) {
 			resident->ofile[fd] = 0;
 		}
 	}
-
-	struct inode *cwd = resident->cwd;
-	release(&ptable.lock);
 
 	//end_op(mozda i begin_op ko zna) zove acquire(&ptable.lock)
 	begin_op();
