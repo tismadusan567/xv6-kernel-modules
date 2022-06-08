@@ -101,7 +101,8 @@ sys_init_module(void)
 	}
 	for(int i=0;i<n;i++) {
 		//todo: dont panic
-		if(assign_to_hook(modules[i].hook_id, modules[i].f, myproc()->pid) != 0) panic("assign to hook\n");
+		cprintf("%s %d %p\n", modules[i].name, modules[i].hook_id, modules[i].f);
+		if(assign_to_hook(modules[i].name, modules[i].hook_id, modules[i].f, myproc()->pid) != 0) panic("assign to hook\n");
 	}
 	set_resident();
 	remap_all_to_residents();
@@ -119,7 +120,12 @@ sys_del_module(void) {
 	if(argstr(0, &modname) < 0) {
 		return 1;
 	}
-	// cprintf("%s\n", modname);
-	del_hook_function(modname);
+	int pid = del_hook_function(modname);
+	if(pid == 0) {
+		return 2;
+	}
+	if(module_count(pid) == 0) {
+		release_resident(pid);
+	}
 	return 0;
 }

@@ -15,7 +15,16 @@ struct module {
 };
 
 struct hook_func {
+	char name[16];
 	void (*f)(void*);
 	int pid;
 	void *org_func;
+};
+
+enum hook{
+	CONSOLE_HOOK,
+	FORK,
+	// FILE_READ,
+	// FILE_WRITE,
+	// SCHED,
 };

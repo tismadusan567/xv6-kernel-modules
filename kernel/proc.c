@@ -26,13 +26,15 @@ void exec_hook(int hook_id, void *arg) {
 	}
 }
 
-int assign_to_hook(int hook_id, void (*f)(void*), int pid) {
+int assign_to_hook(char* name, int hook_id, void (*f)(void*), int pid) {
 	int idx = 0;
 	while(hook_functions[hook_id][idx].pid != 0 && idx < MAX_HOOK_FUNC) idx++;
 	if(idx >= MAX_HOOK_FUNC) return 1;
+	strncpy(hook_functions[hook_id][idx].name, name, 15);
 	hook_functions[hook_id][idx].f = f;
 	hook_functions[hook_id][idx].pid = pid;
 	hook_functions[hook_id][idx].org_func = (void*)f;
+	// cprintf("%s %d %p\n", hook_functions[hook_id][idx].name, hook_functions[hook_id][idx].pid = pid, hook_functions[hook_id][idx].f);
 	return 0;
 }
 
@@ -42,20 +44,6 @@ void set_resident() {
 	acquire(&ptable.lock);
 
 	curproc->state = RESIDENT;
-	// Parent might be sleeping in wait().
-	// wakeup1(curproc->parent);
-
-	// todo: proveriti
-	// Pass abandoned children to init.
-	// struct proc *p;
-	// for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-	// 	if(p->parent == curproc){
-	// 		p->parent = initproc;
-	// 		if(p->state == ZOMBIE)
-	// 			wakeup1(initproc);
-	// 	}
-	// }
-
 	release(&ptable.lock);
 }
 
@@ -79,6 +67,86 @@ void myyield(void) {
 	sched();
 	release(&ptable.lock);
 	panic("myyield\n");
+}
+
+//Deletes the module named modname, and returns the pid of its process.
+int del_hook_function(char *modname) {
+	for(int i=0;i<NUM_OF_HOOKS;i++) {
+		for(int j=0;j<MAX_HOOK_FUNC;j++) {
+			if(strncmp(modname, hook_functions[i][j].name, 15) == 0) {
+				int pid = hook_functions[i][j].pid;
+				memset(&hook_functions[i][j], 0, sizeof(struct hook_func));
+				return pid;
+			}
+		}
+	}
+	return 0;
+}
+
+int module_count(int pid) {
+	int count = 0;
+	for(int i=0;i<NUM_OF_HOOKS;i++) {
+		for(int j=0;j<MAX_HOOK_FUNC;j++) {
+			if(hook_functions[i][j].pid == pid) {
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+//Simulates exit cleanup + wait cleanup
+void release_resident(int pid) {
+	struct proc *resident;
+	acquire(&ptable.lock);
+
+	for(resident = ptable.proc; resident < &ptable.proc[NPROC]; resident++) {
+		if(resident->state != UNUSED && resident->pid == pid) break;
+	}
+	if(resident == &ptable.proc[NPROC]) panic("release_resident resident not found");
+
+	// Close all open files.
+	//todo: testirati
+	int fd;
+	for(fd = 0; fd < NOFILE; fd++){
+		if(resident->ofile[fd]){
+			fileclose(resident->ofile[fd]);
+			resident->ofile[fd] = 0;
+		}
+	}
+
+	struct inode *cwd = resident->cwd;
+	release(&ptable.lock);
+
+	//end_op(mozda i begin_op ko zna) zove acquire(&ptable.lock)
+	begin_op();
+	iput(cwd);
+	end_op();
+
+	acquire(&ptable.lock);
+	resident->cwd = 0;
+
+	// Pass abandoned children to init.
+	for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+		if(p->parent == resident){
+			p->parent = initproc;
+			if(p->state == ZOMBIE)
+				wakeup1(initproc);
+		}
+	}
+
+	kfree(resident->kstack);
+	resident->kstack = 0;
+	freevm(resident->pgdir);
+	resident->pid = 0;
+	resident->parent = 0;
+	resident->name[0] = 0;
+	resident->killed = 0;
+	resident->state = UNUSED;
+
+	release(&ptable.lock);
+
+	remap_all_to_residents();
 }
 
 void
@@ -283,7 +351,7 @@ fork(void)
 	release(&ptable.lock);\
 
 	int x = 0;
-	exec_hook(0, &x);
+	exec_hook(FORK, &x);
 	cprintf("%d\n", x);
 
 	return pid;

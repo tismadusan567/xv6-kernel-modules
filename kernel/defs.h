@@ -124,12 +124,15 @@ void            wakeup(void*);
 void            yield(void);
 //projekat
 void            exec_hook(int, void*);
-int             assign_to_hook(int, void (*)(void*), int);
+int             assign_to_hook(char*, int, void (*)(void*), int);
 void            set_resident(void);
 void            myyield(void);
 void            acquire_ptable(void);
 void            release_ptable(void);
 struct proc*    get_processes(void);
+int             del_hook_function(char*);
+int             module_count(int);
+void            release_resident(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
