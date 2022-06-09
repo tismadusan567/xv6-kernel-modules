@@ -123,7 +123,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 //projekat
-void            exec_hook(int, void*, void*);
+void            exec_hook(int, void*, void*, void*);
 int             assign_to_hook(char*, int, void (*)(struct hook_arg), int);
 void            set_resident(void);
 void            myyield(void);
@@ -133,6 +133,7 @@ struct proc*    get_processes(void);
 int             del_hook_function(char*);
 int             module_count(int);
 void            release_resident(int);
+int             module_name_exists(char*); 
 
 // swtch.S
 void            swtch(struct context**, struct context*);

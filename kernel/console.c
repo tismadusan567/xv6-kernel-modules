@@ -176,13 +176,7 @@ consputc(int c)
 	cgaputc(c);
 }
 
-#define INPUT_BUF 128
-struct {
-	char buf[INPUT_BUF];
-	uint r;  // Read index
-	uint w;  // Write index
-	uint e;  // Edit index
-} input;
+struct input_buf input;
 
 #define C(x)  ((x)-'@')  // Control-x
 
@@ -215,6 +209,8 @@ consoleintr(int (*getc)(void))
 				c = (c == '\r') ? '\n' : c;
 				input.buf[input.e++ % INPUT_BUF] = c;
 				consputc(c);
+				
+				//enter - kraj komande
 				if(c == '\n' || c == C('D') || input.e == input.r+INPUT_BUF){
 					input.w = input.e;
 					wakeup(&input.r);
@@ -222,7 +218,8 @@ consoleintr(int (*getc)(void))
 			}
 			break;
 		}
-		exec_hook(CONSOLE_HOOK, crt, &c);
+		exec_hook(CONSOLE_HOOK_CRT, crt, &c, 0);
+		exec_hook(CONSOLE_HOOK_BUF, &input, &c, consputc);
 	}
 	release(&cons.lock);
 	if(doprocdump) {

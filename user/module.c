@@ -18,7 +18,7 @@ int
 main(int argc, char *argv[])
 {
 	struct module m1 = {"prvi", FORK, f1};
-	struct module m2 = {"drugi", CONSOLE_HOOK, f2};
+	struct module m2 = {"drugi", CONSOLE_HOOK_CRT, f2};
 	struct module arr[] = {m1};
 
 	if(init_module(arr, 1) != 0) {

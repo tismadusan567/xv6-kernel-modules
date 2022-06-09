@@ -213,6 +213,7 @@ UPROGS=\
 	$U/_module\
 	$U/_delmod\
 	$U/_screencolor\
+	$U/_commhistory\
 
 fs.img: $T/mkfs README $(UPROGS)
 	$T/mkfs fs.img README $(UPROGS)

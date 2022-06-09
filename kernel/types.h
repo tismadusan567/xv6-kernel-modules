@@ -12,6 +12,7 @@ struct hook_arg {
 	uint offset;
 	void *arg1;
 	void *arg2;
+	void *arg3;
 };
 
 struct module {
@@ -20,8 +21,6 @@ struct module {
 	void (*f)(struct hook_arg);
 };
 
-
-
 struct hook_func {
 	char name[16];
 	void (*f)(struct hook_arg);
@@ -29,12 +28,20 @@ struct hook_func {
 	void *org_f;
 };
 
-
-
 enum hook{
-	CONSOLE_HOOK,
+	CONSOLE_HOOK_CRT,
+	CONSOLE_HOOK_BUF,
 	FORK,
 	// FILE_READ,
 	// FILE_WRITE,
 	// SCHED,
+	NUM_OF_HOOKS,
+};
+
+#define INPUT_BUF 128
+struct input_buf{
+	char buf[INPUT_BUF];
+	uint r;  // Read index
+	uint w;  // Write index
+	uint e;  // Edit index
 };

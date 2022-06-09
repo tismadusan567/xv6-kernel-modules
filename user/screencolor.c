@@ -9,10 +9,6 @@ void paint_screen(struct hook_arg arg)
     ushort *crt = (ushort*)arg.arg1;
     char c = *((char*)arg.arg2);
     if(c != '\n'&& c != '\r') return;
-    // atoi("asdd");
-    // int (*f)(const char*) = ((char*)atoi + arg.offset);
-    // f("asd");
-    // load_color();
     ushort* p_clr = (ushort*)((char*)(&color) + arg.offset);
     crt[0]++;
 	for(int i=0;i<25*80;i++) {
@@ -44,10 +40,8 @@ void load_color()
 int
 main(int argc, char *argv[])
 {
-    printf("%x\n", load_color);
-    printf("%x\n", atoi);
     load_color();
-	struct module m1 = {"screencolor", CONSOLE_HOOK, paint_screen};
+	struct module m1 = {"screencolor", CONSOLE_HOOK_CRT, paint_screen};
 	struct module arr[1] = {m1};
 	if(init_module(arr, 1) != 0) {
 		exit();

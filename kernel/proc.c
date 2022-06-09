@@ -20,9 +20,9 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
-void exec_hook(int hook_id, void *arg1, void *arg2) 
+void exec_hook(int hook_id, void *arg1, void *arg2, void *arg3) 
 {
-	struct hook_arg hook_arg = {.arg1=arg1, .arg2=arg2};
+	struct hook_arg hook_arg = {.arg1=arg1, .arg2=arg2, .arg3=arg3};
 
 	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
 		hook_arg.offset = (uint)hook_functions[hook_id][i].f - (uint)hook_functions[hook_id][i].org_f;
@@ -381,7 +381,7 @@ fork(void)
 	release(&ptable.lock);\
 
 	int x = 0;
-	exec_hook(FORK, &x, 0);
+	exec_hook(FORK, &x, 0, 0);
 	cprintf("%d\n", x);
 
 	return pid;
