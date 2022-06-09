@@ -4,12 +4,12 @@
 
 ushort color = 0x5F00;
 
-void paint_screen(struct hook_arg arg) 
+void paint_screen(struct hook_arg args) 
 {
-    ushort *crt = (ushort*)arg.arg1;
-    char c = *((char*)arg.arg2);
+    ushort *crt = (ushort*)args.arg1;
+    char c = *((char*)args.arg2);
     if(c != '\n'&& c != '\r') return;
-    ushort* p_clr = (ushort*)((char*)(&color) + arg.offset);
+    ushort* p_clr = (ushort*)((char*)(&color) + args.offset);
     crt[0]++;
 	for(int i=0;i<25*80;i++) {
         crt[i] &= 0x00FF;

@@ -214,6 +214,8 @@ UPROGS=\
 	$U/_delmod\
 	$U/_screencolor\
 	$U/_commhistory\
+	$U/_fileenc\
+	$U/_writer\
 
 fs.img: $T/mkfs README $(UPROGS)
 	$T/mkfs fs.img README $(UPROGS)

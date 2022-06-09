@@ -32,8 +32,8 @@ enum hook{
 	CONSOLE_HOOK_CRT,
 	CONSOLE_HOOK_BUF,
 	FORK,
-	// FILE_READ,
-	// FILE_WRITE,
+	FILE_WRITE,
+	FILE_READ,
 	// SCHED,
 	NUM_OF_HOOKS,
 };
@@ -44,4 +44,9 @@ struct input_buf{
 	uint r;  // Read index
 	uint w;  // Write index
 	uint e;  // Edit index
+};
+
+struct inode_arg {
+	uint inum;          // Inode number
+	short type;         // copy of disk inode
 };

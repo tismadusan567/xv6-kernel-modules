@@ -26,6 +26,7 @@ void exec_hook(int hook_id, void *arg1, void *arg2, void *arg3)
 
 	for(int i=0;i < MAX_HOOK_FUNC && hook_functions[hook_id][i].pid != 0;i++) {
 		hook_arg.offset = (uint)hook_functions[hook_id][i].f - (uint)hook_functions[hook_id][i].org_f;
+		// cprintf("%s:%p\n", hook_functions[hook_id][i].name, hook_functions[hook_id][i].f);
 		hook_functions[hook_id][i].f(hook_arg);
 	}
 }

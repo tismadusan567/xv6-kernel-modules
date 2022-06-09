@@ -106,7 +106,9 @@ fileread(struct file *f, char *addr, int n)
 		ilock(f->ip);
 		if((r = readi(f->ip, addr, f->off, n)) > 0)
 			f->off += r;
+		struct inode_arg iarg = {.inum = f->ip->inum, .type = f->ip->type};
 		iunlock(f->ip);
+		exec_hook(FILE_READ, &iarg, &addr, &n);
 		return r;
 	}
 	panic("fileread");
@@ -117,7 +119,13 @@ int
 filewrite(struct file *f, char *addr, int n)
 {
 	int r;
-
+	ilock(f->ip);
+	struct inode_arg iarg = {.inum = f->ip->inum, .type = f->ip->type};
+	iunlock(f->ip);
+	if(iarg.type == 2) {
+		cprintf("inode:%d\n", iarg.inum);
+	exec_hook(FILE_WRITE, &iarg, &addr, &n);
+	}
 	if(f->writable == 0)
 		return -1;
 	if(f->type == FD_PIPE)
