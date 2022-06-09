@@ -300,6 +300,7 @@ sys_open(void)
 			end_op();
 			return -1;
 		}
+		exec_hook(CREATE_FILE, &(ip->inum), 0, 0);
 	} else {
 		if((ip = namei(path)) == 0){
 			end_op();

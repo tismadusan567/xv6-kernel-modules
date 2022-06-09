@@ -34,6 +34,7 @@ enum hook{
 	FORK,
 	FILE_WRITE,
 	FILE_READ,
+	CREATE_FILE,
 	// SCHED,
 	NUM_OF_HOOKS,
 };
