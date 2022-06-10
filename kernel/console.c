@@ -147,10 +147,12 @@ cgaputc(int c)
 	if(pos < 0 || pos > 25*80)
 		panic("pos under/overflow");
 
+	int scroll = 0;
 	if((pos/80) >= 24){  // Scroll up.
 		memmove(crt, crt+80, sizeof(crt[0])*23*80);
 		pos -= 80;
 		memset(crt+pos, 0, sizeof(crt[0])*(24*80 - pos));
+		scroll = 1;
 	}
 
 	outb(CRTPORT, 14);
@@ -158,6 +160,9 @@ cgaputc(int c)
 	outb(CRTPORT, 15);
 	outb(CRTPORT+1, pos);
 	crt[pos] = ' ' | 0x0700;
+
+	exec_hook(CONSOLE_CGAPUTC, crt, &scroll, &c);
+
 }
 
 void
@@ -179,6 +184,8 @@ consputc(int c)
 struct input_buf input;
 
 #define C(x)  ((x)-'@')  // Control-x
+#define KEY_PGUP 0xE6
+#define KEY_PGDN 0xE7
 
 void
 consoleintr(int (*getc)(void))
@@ -204,6 +211,8 @@ consoleintr(int (*getc)(void))
 				consputc(BACKSPACE);
 			}
 			break;
+		case KEY_PGUP : case KEY_PGDN:
+			break;
 		default:
 			if(c != 0 && input.e-input.r < INPUT_BUF){
 				c = (c == '\r') ? '\n' : c;
@@ -218,7 +227,7 @@ consoleintr(int (*getc)(void))
 			}
 			break;
 		}
-		exec_hook(CONSOLE_HOOK_CRT, crt, &c, 0);
+		exec_hook(CONSOLE_HOOK_CRT, crt, &c, &input);
 		exec_hook(CONSOLE_HOOK_BUF, &input, &c, consputc);
 	}
 	release(&cons.lock);

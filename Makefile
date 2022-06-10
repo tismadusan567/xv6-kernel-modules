@@ -216,6 +216,10 @@ UPROGS=\
 	$U/_commhistory\
 	$U/_fileenc\
 	$U/_writer\
+	$U/_zip\
+	$U/_screenscroll\
+	$U/_sched\
+	$U/_setprio\
 
 fs.img: $T/mkfs README $(UPROGS)
 	$T/mkfs fs.img README $(UPROGS)

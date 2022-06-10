@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_init_module 22
 #define SYS_del_module 23
+#define SYS_set_prio 24

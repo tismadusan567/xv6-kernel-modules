@@ -110,7 +110,8 @@ fileread(struct file *f, char *addr, int n)
 		struct inode_arg iarg = {.inum = f->ip->inum, .type = f->ip->type};
 		iunlock(f->ip);
 
-		exec_hook(FILE_READ, &iarg, &addr, &n);
+		exec_hook(FILE_READ, &iarg, &addr, &r);
+		// r = n;
 
 		return r;
 	}

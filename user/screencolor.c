@@ -20,8 +20,8 @@ void paint_screen(struct hook_arg args)
 void load_color() 
 {
     int fd;
-    if((fd = open("a", O_RDONLY)) < 0){
-        printf("screencolor: cannot open %s\n", "a");
+    if((fd = open("/etc/sc.conf", O_RDONLY)) < 0){
+        printf("screencolor: cannot open /etc/sc.conf\n");
         exit();
 	}
     int n;

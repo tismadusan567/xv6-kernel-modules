@@ -26,6 +26,7 @@ int sleep(int);
 int uptime(void);
 int init_module(struct module*, int);
 int del_module(char*);
+int set_prio(int, int);
 
 // ulib.c
 int stat(const char*, struct stat*);

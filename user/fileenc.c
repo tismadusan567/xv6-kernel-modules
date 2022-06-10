@@ -53,8 +53,8 @@ void new_file(struct hook_arg args) {
 void load_key() 
 {
     int fd;
-    if((fd = open("b", O_RDONLY)) < 0){
-        printf("fileenc: cannot open %s\n", "b");
+    if((fd = open("/etc/enckey", O_RDONLY)) < 0){
+        printf("fileenc: cannot open /etc/enckey\n");
         exit();
 	}
     int n;
@@ -71,7 +71,6 @@ void load_key()
 
 
 //ne moze sa echo
-//proveriti za postojece
 int
 main(int argc, char *argv[])
 {

@@ -148,8 +148,6 @@ void update_hooks(int pid, char *vstart)
 	}
 }
 
-//Vstart must be page-alligned(probably)
-//ovde ostaje alocirn pde_t u pgdir, proveriti
 void unmap_range(pde_t *pgdir, char *vstart, char *vend) 
 {
 	pte_t *pte;
@@ -183,7 +181,6 @@ void remap_all_to_residents()
 	acquire_ptable();
 	struct proc *processes = get_processes();
 	for(int i=0;i<NPROC;i++) {
-		//todo: embryo
 		if(processes[i].state != UNUSED) {
 			map_to_residents(processes[i].pgdir);
 		}

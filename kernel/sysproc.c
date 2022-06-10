@@ -133,3 +133,33 @@ sys_del_module(void)
 	}
 	return 0;
 }
+
+int
+sys_set_prio(void)
+{
+	int pid;
+	int prio;
+
+	if(argint(0, &pid) < 0 || argint(1, &prio) < 0) {
+		cprintf("Set prio arrgument error\n");
+		return 1;
+	}
+
+	int index = -1;
+	acquire_ptable();
+	struct proc *processes = get_processes();
+	for(int i = 0; i < NPROC; i++){
+		if(processes[i].pid == pid){
+			index = i;
+			break;
+		}
+	}
+	if(index < 0) {
+		cprintf("Set prio: no such process\n");
+		return 2;
+	}
+	exec_hook(SET_PRIO, &index, &prio, 0);
+
+	release_ptable();
+	return 0;
+}

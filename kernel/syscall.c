@@ -105,6 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_init_module(void);
 extern int sys_del_module(void);
+extern int sys_set_prio(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -130,6 +131,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_init_module] sys_init_module,
 [SYS_del_module]  sys_del_module,
+[SYS_set_prio] sys_set_prio,
 };
 
 void

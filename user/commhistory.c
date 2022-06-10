@@ -5,13 +5,9 @@
 #define KEY_DN 0xE3
 #define BACKSPACE 0x100
 
-// commhistory
-// Omogućava da strelice gore i dole daju pristup istoriji komandi na konzoli. Najniža komanda
-// u istoriji je ona koja je trenutno ukucana, čak i ako nije završena.
+#define COMMAND_HISTORY_SIZE 128
 
-#define COMMAND_HISTORY_SIZE 10
-
-char command_history[COMMAND_HISTORY_SIZE * INPUT_BUF];
+char command_history[COMMAND_HISTORY_SIZE * COMMAND_HISTORY_SIZE];
 int last_command = 0;
 int curr_command = 0;
 
@@ -25,13 +21,15 @@ void save_command(struct hook_arg args)
     int c = *((int*)args.arg2);
     void (*p_consputc)(int) = (void (*)(int))args.arg3;
 
-    if(c == KEY_DN || c == KEY_UP || c == 0) return;
+    if(c == KEY_DN || c == KEY_UP || c == 0 || *p_curr_command != *p_last_command) return;
 
     //find start of current command
     uint start_of_curr;
     for(start_of_curr=input->e-2;start_of_curr >= 0;start_of_curr--) {
         if(input->buf[start_of_curr % INPUT_BUF] == '\n' || input->buf[start_of_curr % INPUT_BUF] == '\r') break;
     }
+
+    // if(start_of_curr < 0) last_command = 5/0;
     
     //empty command
     if(c == '\n' && start_of_curr == input->e-2) {
@@ -46,6 +44,7 @@ void save_command(struct hook_arg args)
         p_command_history[(*p_last_command) * COMMAND_HISTORY_SIZE + j++] = input->buf[i % INPUT_BUF];
     }
     p_command_history[*p_last_command * COMMAND_HISTORY_SIZE + j] = 0;
+
     //save permamently - no longer can be overwritten
     if(c == '\n') {
         p_command_history[*p_last_command * COMMAND_HISTORY_SIZE + j - 1] = 0;
@@ -67,11 +66,14 @@ void change_command(struct hook_arg args)
     int c = *((int*)args.arg2);
     void (*p_consputc)(int) = (void (*)(int))args.arg3;
 
-    if(c != KEY_DN && c != KEY_UP) return;
+    if(c == 0) return;
+    if(c == KEY_DN || c == KEY_UP) {
+        //remove up and down arrows from screen and buffer
+        p_consputc(BACKSPACE);
+        input->e--;
+    }
 
-    //remove up and down arrows from screen and buffer
-    p_consputc(BACKSPACE);
-    input->e--;
+    
 
     int next_command = (*p_last_command);
     if(c == KEY_UP) {
@@ -101,7 +103,7 @@ void change_command(struct hook_arg args)
 
     //print the next command
     for(int i=0;p_command_history[next_command * COMMAND_HISTORY_SIZE + i] != 0;i++) {
-        if(p_command_history[next_command * COMMAND_HISTORY_SIZE + i] == '\n') last_command = 1;
+        // if(p_command_history[next_command * COMMAND_HISTORY_SIZE + i] == '\n') p_consputc('P');
         input->buf[input->e++ % INPUT_BUF] = p_command_history[next_command * COMMAND_HISTORY_SIZE + i];
         p_consputc(p_command_history[next_command * COMMAND_HISTORY_SIZE + i]);
     }
@@ -110,6 +112,8 @@ void change_command(struct hook_arg args)
     *p_curr_command = next_command;
 }
 
+
+//ne smeju prevelike komande
 int
 main(int argc, char *argv[])
 {

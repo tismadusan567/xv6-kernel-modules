@@ -139,7 +139,6 @@ void release_resident(int pid)
 	release(&ptable.lock);
 
 	// Close all open files.
-	//todo: testirati
 	//zove endop
 	int fd;
 	for(fd = 0; fd < NOFILE; fd++){
@@ -379,11 +378,7 @@ fork(void)
 
 	np->state = RUNNABLE;
 
-	release(&ptable.lock);\
-
-	int x = 0;
-	exec_hook(FORK, &x, 0, 0);
-	cprintf("%d\n", x);
+	release(&ptable.lock);
 
 	return pid;
 }
@@ -464,7 +459,6 @@ wait(void)
 				release(&ptable.lock);
 				return pid;
 			}
-			//todo: proveriti
 			if(p->state == RESIDENT){
 				pid = p->pid;
 				p->parent = 0;
@@ -495,6 +489,9 @@ void
 scheduler(void)
 {
 	struct proc *p;
+	struct proc *next;
+	int hook_idx;
+	int states[NPROC];
 	struct cpu *c = mycpu();
 	c->proc = 0;
 
@@ -504,23 +501,35 @@ scheduler(void)
 
 		// Loop over process table looking for process to run.
 		acquire(&ptable.lock);
+		
+		for(int i=0;i<NPROC;i++) {
+			states[i] = ptable.proc[i].state;
+		}
+		
+		hook_idx = -1;
+		exec_hook(SCHED, states, &hook_idx, 0);
+
 		for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 			if(p->state != RUNNABLE)
 				continue;
 
+			next = hook_idx >= 0 ? &ptable.proc[hook_idx] : p;
+
 			// Switch to chosen process.  It is the process's job
 			// to release ptable.lock and then reacquire it
 			// before jumping back to us.
-			c->proc = p;
-			switchuvm(p);
-			p->state = RUNNING;
+			c->proc = next;
+			switchuvm(next);
+			next->state = RUNNING;
 
-			swtch(&(c->scheduler), p->context);
+			swtch(&(c->scheduler), next->context);
 			switchkvm();
 
 			// Process is done running for now.
 			// It should have changed its p->state before coming back.
 			c->proc = 0;
+
+			if(hook_idx >= 0) break;
 		}
 		release(&ptable.lock);
 
