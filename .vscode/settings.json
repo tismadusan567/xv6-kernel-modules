@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "defs.h": "c",
+        "proc.h": "c",
+        "cmath": "c",
+        "*.tcc": "c",
+        "fcntl.h": "c",
+        "stdarg.h": "c",
+        "user.h": "c",
+        "kbd.h": "c",
+        "file.h": "c",
+        "limits": "c",
+        "stat.h": "c"
+    }
+}

@@ -1,0 +1,179 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/dusan/Documents/projekat'
+ 
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -fno-pic -O -nostdinc -I. -c bootloader/bootmain.c -o bootloader/bootmain.o
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -fno-pic -nostdinc -I. -c bootloader/bootasm.S -o bootloader/bootasm.o
+ld -m    elf_i386 -N -e start -Ttext 0x7C00 -o bootloader/bootblock.o bootloader/bootasm.o bootloader/bootmain.o
+objcopy -S -O binary -j .text bootloader/bootblock.o bootloader/bootblock
+tools/sign.pl bootloader/bootblock
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/bio.o kernel/bio.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/console.o kernel/console.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/exec.o kernel/exec.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/file.o kernel/file.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/fs.o kernel/fs.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/ide.o kernel/ide.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/ioapic.o kernel/ioapic.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/kalloc.o kernel/kalloc.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/kbd.o kernel/kbd.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/lapic.o kernel/lapic.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/log.o kernel/log.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/main.o kernel/main.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/mp.o kernel/mp.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/picirq.o kernel/picirq.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/pipe.o kernel/pipe.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/proc.o kernel/proc.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/sleeplock.o kernel/sleeplock.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/spinlock.o kernel/spinlock.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/string.o kernel/string.c
+ 
+gcc -c -m32 -I. -gdwarf-2 -Wa,-divide -o kernel/swtch.o kernel/swtch.S
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/syscall.o kernel/syscall.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/sysfile.o kernel/sysfile.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/sysproc.o kernel/sysproc.c
+ 
+gcc -c -m32 -I. -gdwarf-2 -Wa,-divide -o kernel/trapasm.o kernel/trapasm.S
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/trap.o kernel/trap.c
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/uart.o kernel/uart.c
+tools/vectors.pl > kernel/vectors.S
+gcc -c -m32 -I. -gdwarf-2 -Wa,-divide -o kernel/vectors.o kernel/vectors.S
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o kernel/vm.o kernel/vm.c
+gcc -c -m32 -I. -gdwarf-2 -Wa,-divide -o kernel/entry.o kernel/entry.S
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -fno-pic -nostdinc -I. -c kernel/entryother.S -o kernel/entryother.o
+ld -m    elf_i386 -N -e start -Ttext 0x7000 -o bootloader/bootblockother.o kernel/entryother.o
+objcopy -S -O binary -j .text bootloader/bootblockother.o kernel/entryother
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -nostdinc -I. -c user/initcode.S -o user/initcode.o
+ld -m    elf_i386 -N -e start -Ttext 0 -o user/initcode.out user/initcode.o
+objcopy -S -O binary user/initcode.out user/initcode
+ld -m    elf_i386 -T kernel/kernel.ld -o kernel/kernel kernel/entry.o kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/log.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/sleeplock.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o  -b binary user/initcode kernel/entryother
+dd if=/dev/zero of=xv6.img count=10000
+dd if=bootloader/bootblock of=xv6.img conv=notrunc
+dd if=kernel/kernel of=xv6.img seek=1 conv=notrunc
+gcc -Wall -I. -o tools/mkfs tools/mkfs.c
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/ulib.o user/ulib.c
+gcc -c -m32 -I. -gdwarf-2 -Wa,-divide -o user/usys.o user/usys.S
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/printf.o user/printf.c
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/umalloc.o user/umalloc.c
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/cat.o user/cat.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_cat user/cat.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/echo.o user/echo.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_echo user/echo.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/forktest.o user/forktest.c
+# forktest has less library code linked in - needs to be small
+# in order to be able to max out the proc table.
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_forktest user/forktest.o user/ulib.o user/usys.o
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/grep.o user/grep.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_grep user/grep.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/init.o user/init.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_init user/init.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/kill.o user/kill.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_kill user/kill.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/ln.o user/ln.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_ln user/ln.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/ls.o user/ls.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_ls user/ls.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/mkdir.o user/mkdir.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_mkdir user/mkdir.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/rm.o user/rm.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_rm user/rm.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/sh.o user/sh.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_sh user/sh.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/stressfs.o user/stressfs.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_stressfs user/stressfs.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/usertests.o user/usertests.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_usertests user/usertests.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/wc.o user/wc.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_wc user/wc.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/zombie.o user/zombie.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_zombie user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/pipetest.o user/pipetest.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_pipetest user/pipetest.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/module.o user/module.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_module user/module.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/delmod.o user/delmod.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_delmod user/delmod.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/screencolor.o user/screencolor.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_screencolor user/screencolor.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/commhistory.o user/commhistory.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_commhistory user/commhistory.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/fileenc.o user/fileenc.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_fileenc user/fileenc.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/writer.o user/writer.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_writer user/writer.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/zip.o user/zip.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_zip user/zip.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/screenscroll.o user/screenscroll.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_screenscroll user/screenscroll.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/sched.o user/sched.c
+ 
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_sched user/sched.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+ 
+gcc -c -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. -fno-stack-protector -fno-pie -no-pie -o user/setprio.o user/setprio.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o user/_setprio user/setprio.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+tools/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_wc user/_zombie user/_pipetest user/_module user/_delmod user/_screencolor user/_commhistory user/_fileenc user/_writer user/_zip user/_screenscroll user/_sched user/_setprio 
+make: Leaving directory '/home/dusan/Documents/projekat'
+ 

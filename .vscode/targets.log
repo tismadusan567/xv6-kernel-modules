@@ -1,0 +1,988 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Fri Jun 10 23:01:35 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+PAPERSIZE = letter
+# environment
+DESKTOP_SESSION = pop
+# default
+.SHELLFLAGS := -c
+# makefile (from 'Makefile', line 87)
+QEMU = $(shell if which qemu > /dev/null; then echo qemu; exit; elif which qemu-system-i386 > /dev/null; then echo qemu-system-i386; exit; elif which qemu-system-x86_64 > /dev/null; then echo qemu-system-x86_64; exit; else qemu=/Applications/Q.app/Contents/MacOS/i386-softmmu.app/Contents/MacOS/i386-softmmu; if test -x $$qemu; then echo $$qemu; exit; fi; fi; echo "***" 1>&2; echo "*** Error: Couldn't find a working QEMU executable." 1>&2; echo "*** Is the directory containing the qemu binary in your PATH" 1>&2; echo "*** or have you tried setting the QEMU variable in Makefile?" 1>&2; echo "***" 1>&2; exit 1)
+# environment
+XDG_SESSION_CLASS = user
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
+# makefile (from 'Makefile', line 1)
+B = bootloader
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = pop
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/dusan/Documents/projekat
+# makefile (from 'Makefile', line 2)
+K = kernel
+# makefile
+SHELL = /bin/sh
+# makefile (from 'Makefile', line 4)
+T = tools
+# makefile (from 'Makefile', line 3)
+U = user
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/share/code/code
+# makefile (from 'Makefile', line 116)
+CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -ggdb -m32 -fno-omit-frame-pointer -I. $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector) -fno-pie -no-pie
+# environment
+JOURNAL_STREAM = 8:48653
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-pop:/etc/xdg
+# makefile (from 'Makefile', line 235)
+GDBPORT = $(shell expr `id -u` % 5000 + 25000)
+# makefile (from 'Makefile', line 6)
+HDRS = $K/asm.h $K/buf.h $K/date.h $K/defs.h $K/elf.h $K/fcntl.h $K/file.h $K/fs.h $K/kbd.h $K/memlayout.h $K/mmu.h $K/mp.h $K/param.h $K/proc.h $K/sleeplock.h $K/spinlock.h $K/stat.h $K/syscall.h $K/traps.h $K/types.h $K/x86.h $U/user.h 
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+JAVA_HOME = /home/dusan/.sdkman/candidates/java/current
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
+USERNAME = dusan
+# environment
+MAKELEVEL := 0
+# environment
+MANDATORY_PATH = /usr/share/gconf/pop.mandatory.path
+# environment
+XDG_DATA_DIRS = /usr/share/pop:/home/dusan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from 'Makefile', line 104)
+AS = $(TOOLPREFIX)gas
+# makefile (from 'Makefile', line 30)
+OBJS = $K/bio.o $K/console.o $K/exec.o $K/file.o $K/fs.o $K/ide.o $K/ioapic.o $K/kalloc.o $K/kbd.o $K/lapic.o $K/log.o $K/main.o $K/mp.o $K/picirq.o $K/pipe.o $K/proc.o $K/sleeplock.o $K/spinlock.o $K/string.o $K/swtch.o $K/syscall.o $K/sysfile.o $K/sysproc.o $K/trapasm.o $K/trap.o $K/uart.o $K/vectors.o $K/vm.o 
+# environment
+MANAGERPID = 1742
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = en_US.UTF-8
+# environment
+VSCODE_CWD = /home/dusan
+# environment
+GSETTINGS_SCHEMA_DIR = /home/dusan/data
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/dusan/.local/bin:/home/dusan/.sdkman/candidates/java/current/bin:/home/dusan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/dusan/snap/flutter/common/flutter/bin:/home/dusan/sdk/go1.18beta1/bin
+# makefile (from 'Makefile', line 105)
+LD = $(TOOLPREFIX)ld
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/pop-os:@/tmp/.ICE-unix/1998,unix/pop-os:/tmp/.ICE-unix/1998
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+SDKMAN_DIR = /home/dusan/.sdkman
+# makefile (from 'Makefile', line 241)
+CPUS := 2
+# environment
+SDKMAN_CANDIDATES_API = https://api.sdkman.io/2
+# makefile (from 'Makefile', line 237)
+QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; then echo "-gdb tcp::$(GDBPORT)"; else echo "-s -p $(GDBPORT)"; fi)
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+SDKMAN_PLATFORM = linuxx64
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+INVOCATION_ID = a243b8e797dd46e586a3c1922651c091
+# makefile (from 'Makefile', line 112)
+LDFLAGS = -m $(shell $(LD) -V | grep elf_i386 2>/dev/null | head -n 1)
+# makefile (from 'Makefile', line 177)
+ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = 
+# environment
+XDG_SESSION_DESKTOP = pop
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 69824
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :1
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /home/dusan/Documents/projekat
+# environment
+QT_QPA_PLATFORMTHEME = qt5ct
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 1958
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = pop:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge:appmenu-gtk-module
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/dusan
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CODE_CACHE_PATH = /home/dusan/.config/Code/CachedData/4af164ea3a06f701fe3e89a2bcbb421d2026b68f
+# environment
+LOGNAME = dusan
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# automatic
++F = $(notdir $+)
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = en_US.UTF-8
+# environment
+SDKMAN_VERSION = 5.13.0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SHLVL = 0
+# makefile (from 'Makefile', line 103)
+CC = $(TOOLPREFIX)gcc
+# makefile (from 'Makefile', line 68)
+TOOLPREFIX := 
+# environment
+GNOME_SHELL_SESSION_MODE = pop
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-937662d9-916a-4ced-802c-cbeb5767f242.sock
+# makefile (from 'Makefile', line 110)
+ASFLAGS = -m32 -I. -gdwarf-2 -Wa,-divide
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = dusan
+# environment
+LC_MONETARY = en_US.UTF-8
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = en_US.UTF-8
+# default
+MAKE_COMMAND := make
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+LANGUAGE = en_US:en
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-85cf184f-1.68.0-main.sock
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# makefile (from 'Makefile', line 167)
+MEMFSOBJS = $(filter-out $K/ide.o,$(OBJS)) $K/memide.o
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile (from 'Makefile', line 107)
+OBJDUMP = $(TOOLPREFIX)objdump
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = en_US.UTF-8
+# environment
+QT_ACCESSIBILITY = 1
+# environment
+DEFAULTS_PATH = /usr/share/gconf/pop.default.path
+# makefile (from 'Makefile', line 243)
+QEMUOPTS = -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp $(CPUS) -m 512 $(QEMUEXTRA)
+# 'override' directive
+.SHELLSTATUS := 1
+# default
+MAKEFILES := 
+# environment
+LC_NUMERIC = en_US.UTF-8
+# automatic
+<F = $(notdir $<)
+# environment
+LC_MEASUREMENT = en_US.UTF-8
+# environment
+SDKMAN_CANDIDATES_DIR = /home/dusan/.sdkman/candidates
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# makefile (from 'Makefile', line 106)
+OBJCOPY = $(TOOLPREFIX)objcopy
+# default
+SUFFIXES := 
+# makefile (from 'Makefile', line 196)
+UPROGS = $U/_cat $U/_echo $U/_forktest $U/_grep $U/_init $U/_kill $U/_ln $U/_ls $U/_mkdir $U/_rm $U/_sh $U/_stressfs $U/_usertests $U/_wc $U/_zombie $U/_pipetest $U/_module $U/_delmod $U/_screencolor $U/_commhistory $U/_fileenc $U/_writer $U/_zip $U/_screenscroll $U/_sched $U/_setprio 
+ 
+# environment
+ 
+CHROME_DESKTOP = code-url-handler.desktop
+ 
+# environment
+ 
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+LC_IDENTIFICATION = en_US.UTF-8
+# default
+.RECIPEPREFIX := 
+# environment
+LC_ADDRESS = en_US.UTF-8
+# environment
+LANG = C
+ 
+# environment
+VSCODE_PID = 69824
+# variable set hash-table stats:
+# Load=140/1024=14%, Rehash=0, Collisions=28/432=6%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 64769, inode 2744391): 14 files, no impossibilities.
+
+# 14 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%.o: %.c kernel/asm.h kernel/buf.h kernel/date.h kernel/defs.h kernel/elf.h kernel/fcntl.h kernel/file.h kernel/fs.h kernel/kbd.h kernel/memlayout.h kernel/mmu.h kernel/mp.h kernel/param.h kernel/proc.h kernel/sleeplock.h kernel/spinlock.h kernel/stat.h kernel/syscall.h kernel/traps.h kernel/types.h kernel/x86.h user/user.h
+#  recipe to execute (from 'Makefile', line 126):
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+%.o: %.S kernel/asm.h kernel/buf.h kernel/date.h kernel/defs.h kernel/elf.h kernel/fcntl.h kernel/file.h kernel/fs.h kernel/kbd.h kernel/memlayout.h kernel/mmu.h kernel/mp.h kernel/param.h kernel/proc.h kernel/sleeplock.h kernel/spinlock.h kernel/stat.h kernel/syscall.h kernel/traps.h kernel/types.h kernel/x86.h user/user.h
+#  recipe to execute (from 'Makefile', line 129):
+	$(CC) -c $(ASFLAGS) -o $@ $<
+
+_%: %.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+#  recipe to execute (from 'Makefile', line 180):
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^
+
+# 3 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+user/_ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_writer:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/fs.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+qemu: fs.img xv6.img
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 246):
+	$(QEMU) $(QEMUOPTS)
+
+# Not a target:
+user/_screencolor:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_commhistory:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+qemu-memfs: xv6memfs.img
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 249):
+	$(QEMU) -drive file=xv6memfs.img,index=0,media=disk,format=raw -smp $(CPUS) -m 256
+
+# Not a target:
+bootloader/bootmain.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-04 15:57:59
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+user/_mkdir:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: xv6.img fs.img
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/40=0%
+
+# Not a target:
+%.o:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+ 
+#  File has not been updated.
+
+# Not a target:
+user/_zip:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/kernel.ld:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/uart.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/sleeplock.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_init:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/log.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.PRECIOUS: %.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+README:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/syscall.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_sched:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/vm.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/kbd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_module:
+ 
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_stressfs:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/initcode.S:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/forktest.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+tags: kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/log.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/sleeplock.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o kernel/entryother.S user/_init
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 172):
+	etags */*.S */*.c
+
+user/_forktest: user/forktest.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 183):
+	# forktest has less library code linked in - needs to be small
+	# in order to be able to max out the proc table.
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_forktest $U/forktest.o $U/ulib.o $U/usys.o
+
+# Not a target:
+tools/vectors.pl:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-10 14:53:35
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+kernel/picirq.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+kernel/entryother: kernel/entryother.S
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 149):
+	$(CC) $(CFLAGS) -fno-pic -nostdinc -I. -c $K/entryother.S -o $K/entryother.o
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7000 -o $B/bootblockother.o $K/entryother.o
+	$(OBJCOPY) -S -O binary -j .text $B/bootblockother.o $K/entryother
+
+# Not a target:
+.gdbinit.tmpl:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_fileenc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# 'override' directive
+bootloader/bootblock: .SHELLSTATUS := 0
+bootloader/bootblock: bootloader/bootasm.S bootloader/bootmain.c
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := bootloader/bootblock
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := bootloader/bootasm.S bootloader/bootmain.c
+# automatic
+# | := 
+# automatic
+# < := bootloader/bootasm.S
+# automatic
+# ^ := bootloader/bootasm.S bootloader/bootmain.c
+# automatic
+# ? := bootloader/bootasm.S bootloader/bootmain.c
+# variable set hash-table stats:
+# Load=9/32=28%, Rehash=0, Collisions=7/51=14%
+#  recipe to execute (from 'Makefile', line 142):
+	$(CC) $(CFLAGS) -fno-pic -O -nostdinc -I. -c $B/bootmain.c -o $B/bootmain.o
+	$(CC) $(CFLAGS) -fno-pic -nostdinc -I. -c $B/bootasm.S -o $B/bootasm.o
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7C00 -o $B/bootblock.o $B/bootasm.o $B/bootmain.o
+	$(OBJCOPY) -S -O binary -j .text $B/bootblock.o $B/bootblock
+	$T/sign.pl $B/bootblock
+
+# Not a target:
+user/_delmod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/kalloc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_rm:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/mp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+qemu-nox-gdb: fs.img xv6.img .gdbinit
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 262):
+	@echo "*** Now run 'gdb'." 1>&2
+	$(QEMU) -serial mon:stdio -nographic $(QEMUOPTS) -S $(QEMUGDB)
+
+# Not a target:
+kernel/lapic.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+tools/mkfs: tools/mkfs.c kernel/fs.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 188):
+	gcc -Wall -I. -o $T/mkfs $T/mkfs.c
+
+kernel/kernel: kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/log.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/sleeplock.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o kernel/entry.o kernel/entryother user/initcode kernel/kernel.ld
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 159):
+	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $K/kernel $K/entry.o $(OBJS) -b binary $U/initcode $K/entryother
+
+# Not a target:
+user/printf.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_cat:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/bio.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_setprio:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+kernel/kernelmemfs: kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/log.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/sleeplock.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o kernel/memide.o kernel/entry.o kernel/entryother user/initcode kernel/kernel.ld fs.img
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 169):
+	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $K/kernelmemfs $K/entry.o  $(MEMFSOBJS) -b binary $U/initcode $K/entryother fs.img
+
+# Not a target:
+user/_sh:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_pipetest:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.gdbinit: .gdbinit.tmpl
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 255):
+	sed "s/localhost:1234/localhost:$(GDBPORT)/" < $^ > $@
+
+# Not a target:
+user/_kill:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/fs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/sysproc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_echo:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+fs.img: tools/mkfs README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_wc user/_zombie user/_pipetest user/_module user/_delmod user/_screencolor user/_commhistory user/_fileenc user/_writer user/_zip user/_screenscroll user/_sched user/_setprio
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 225):
+	$T/mkfs fs.img README $(UPROGS)
+
+# Not a target:
+kernel/exec.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/ide.o:
+#  Implicit rule search has not been done.
+ 
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/umalloc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/vectors.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/file.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+xv6.img: bootloader/bootblock kernel/kernel
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/40=0%
+#  recipe to execute (from 'Makefile', line 132):
+	dd if=/dev/zero of=xv6.img count=10000
+	dd if=$B/bootblock of=xv6.img conv=notrunc
+	dd if=$K/kernel of=xv6.img seek=1 conv=notrunc
+
+xv6memfs.img: bootloader/bootblock kernel/kernelmemfs
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 137):
+	dd if=/dev/zero of=xv6memfs.img count=10000
+	dd if=$B/bootblock of=xv6memfs.img conv=notrunc
+	dd if=$K/kernelmemfs of=xv6memfs.img seek=1 conv=notrunc
+
+# Not a target:
+kernel/spinlock.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/proc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/entryother.S:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/string.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+qemu-gdb: fs.img xv6.img .gdbinit
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 258):
+	@echo "*** Now run 'gdb'." 1>&2
+	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
+
+# Not a target:
+kernel/sysfile.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 228):
+	rm -f *.tex *.dvi *.idx *.aux *.log *.ind *.ilg \
+	*/*.o */*.d */*.asm */*.sym $K/vectors.S $B/bootblock $K/entryother \
+	$U/initcode $U/initcode.out $K/kernel xv6.img fs.img $K/kernelmemfs \
+	xv6memfs.img $T/mkfs .gdbinit \
+	$(UPROGS)
+
+# Not a target:
+user/_usertests:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_zombie:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/trapasm.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+tools/mkfs.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/trap.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_wc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+qemu-nox: fs.img xv6.img
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 252):
+	$(QEMU) -serial mon:stdio -nographic $(QEMUOPTS)
+
+# Not a target:
+user/usys.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_ls:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bootloader/bootasm.S:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-04 15:57:59
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+kernel/swtch.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/console.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/ulib.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_screenscroll:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+kernel/vectors.S: tools/vectors.pl
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 175):
+	$T/vectors.pl > $K/vectors.S
+
+user/initcode: user/initcode.S
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 154):
+	$(CC) $(CFLAGS) -nostdinc -I. -c $U/initcode.S -o $U/initcode.o
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0 -o $U/initcode.out $U/initcode.o
+	$(OBJCOPY) -S -O binary $U/initcode.out $U/initcode
+
+# Not a target:
+kernel/ioapic.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/entry.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/pipe.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+user/_grep:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/memide.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/main.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=95/1024=9%, Rehash=0, Collisions=9/266=3%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 132 / storage = 1686 B / avg = 12 B
+# current buf: size = 8162 B / used = 1686 B / count = 132 / avg = 12 B
+
+# strcache performance: lookups = 274 / hit rate = 51%
+# hash-table stats:
+# Load=132/8192=2%, Rehash=0, Collisions=1/274=0%
+# Finished Make data base on Fri Jun 10 23:01:35 2022
+
+ 
